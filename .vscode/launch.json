@@ -1,0 +1,84 @@
+{
+    /* 
+     * Requires the Rust Language Server (rust-analyzer) and Cortex-Debug extensions
+     * https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer
+     * https://marketplace.visualstudio.com/items?itemName=marus25.cortex-debug
+     */
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "cortex-debug",
+            "request": "launch",
+            "name": "Debug (OpenOCD)",
+            "servertype": "openocd",
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": "Flash Firmware",
+            "runToEntryPoint": "main",
+            "executable": "./target/thumbv7m-none-eabi/debug/stm32",
+            "device": "STM32F103C8",
+            "svdFile": "${workspaceRoot}/STM32F103.svd",
+            "configFiles": [
+                "${workspaceRoot}/openocd.cfg"
+            ],
+            "rttConfig": {
+                "enabled": true,
+                "address": "auto",
+                "clearSearch": false,
+                "polling_interval": 20,
+                "rtt_start_retry": 2000,
+                "decoders": [
+                    {
+                        "label": "RTT channel 0",
+                        "port": 0,
+                        "type": "console"
+                    }
+                ]
+            },
+        },
+        {
+            "type": "probe-rs-debug",
+            "request": "launch",
+            "name": "probe_rs",
+            "cwd": "${workspaceFolder}",
+            //!MODIFY (or remove)
+            "speed": 24000,
+            //!MODIFY (or remove)
+            // "probe": "VID:PID:<Serial>",
+            "runtimeExecutable": "probe-rs",
+            "runtimeArgs": ["dap-server"],
+            //!MODIFY
+            "chip": "STM32F103C8T6",
+            "flashingConfig": {
+              "flashingEnabled": true,
+              "haltAfterReset": false,
+              // "formatOptions": {
+              //   "binaryFormat": "elf"
+              // }
+            },
+            "coreConfigs": [
+              {
+                "coreIndex": 0,
+                //!MODIFY
+                "programBinary": "./target/thumbv7m-none-eabi/debug/stm32",
+                //!MODIFY
+                "svdFile": "${workspaceRoot}/STM32F103.svd",
+                "rttEnabled": true,
+                "rttChannelFormats": [
+                    {
+                        "channelNumber": 0,
+                        "dataFormat": "String",
+                        "showTimestamps": true,
+                    },
+                ],
+              }
+            ],
+            "env": {
+              //!MODIFY (or remove)
+              // If you set this variable, check the VSCode console log window for the location of the log file.
+              "RUST_LOG": "info"
+            },
+             // Info, Debug
+            "consoleLogLevel": "Console"
+          }
+    ]
+}
