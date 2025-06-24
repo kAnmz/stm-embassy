@@ -15,11 +15,11 @@
             "preLaunchTask": "Flash Firmware",
             "runToEntryPoint": "main",
             "executable": "./target/thumbv7m-none-eabi/debug/stm32",
-            "postLaunchCommands": [
-            "monitor rtt server start 8765 0",
-            "monitor rtt setup 0x20000008 0x30 \"SEGGER RTT\"",
-            "monitor rtt start"
-            ],
+            // "postLaunchCommands": [
+            // "monitor rtt server start 8765 0",
+            // "monitor rtt setup 0x20000008 0x30 \"SEGGER RTT\"",
+            // "monitor rtt start"
+            // ],
             "device": "STM32F103C8",
             "svdFile": "${workspaceRoot}/STM32F103.svd",
             "configFiles": [
@@ -36,7 +36,7 @@
                     {
                         "label": "RTT channel 0",
                         "port": 0,
-                        "type": "binary",
+                        "type": "console",
                         "show_timestamps": true,
                     }
                 ]
