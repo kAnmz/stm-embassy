@@ -29,6 +29,8 @@ use embassy_stm32::{bind_interrupts, i2c, peripherals};
 use embassy_stm32::peripherals::I2C1;
 
 use {defmt_rtt as _, panic_probe as _};
+use defmt::info;
+use defmt::warn;
 
 // #[entry]
 // fn main() -> ! {
